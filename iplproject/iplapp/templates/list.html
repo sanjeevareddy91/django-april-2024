@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<style>
+body {
+  background-image: url('http://localhost:8000/media/logos/kxip-logo.png');
+  background-repeat: no-repeat;
+  background-size: 1400px 700px;
+}
+</style> 
+{% endblock css %}
+{% block content%}
+{% for team in teams %}
+<a href="{% url 'get_team' team.id %}">{{team.f_name}}</a><br>
+{% endfor %}
+
+<button><a href="{% url 'register' %}">Register</a></button>
+{% endblock %}

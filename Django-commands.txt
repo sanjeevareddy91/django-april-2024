@@ -1,0 +1,42 @@
+# creating the project..
+
+    django-admin startproject projectname 
+
+    django-admin startproject iplproject
+
+# Running the project..
+
+    python manage.py runserver -- This is the command for running the project...
+
+# App creation:
+
+    python manage.py startapp app-name 
+    python manage.py startapp iplapp
+
+
+
+# Adding the new data to the model.
+
+1st way
+    Model-name.objects.create(field1=value1,field2=value2,field3=value3....)
+
+
+# 2nd way
+    obj_name = Model-name(field1=value1,field2=value2,field3=value3....)
+    obj_name.save()
+
+# Getting the data from the Model..
+
+# Getting all the records using all().
+
+    Model-name.objects.all() - will gve the list of all records from the model..
+
+# Getting the particular record from the model based on certain field value..
+
+    Model-name.objects.get(field-name=value)
+
+# Getting the multiple records from the model based on the certain fields search..
+
+    Model-name.objects.filter(field1=value1,field2=value2)
+
+    

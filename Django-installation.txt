@@ -1,0 +1,16 @@
+Python has to be installed inside the device..
+
+Django is a web framework for python..
+    # Using pip we install django..
+
+    pip install django 
+
+
+Virtualenvironment -- A sub environment inside the main environment where we can install only those which are required for our project..
+
+
+pip install virtualenv 
+
+creating the virtualenvironment..
+
+virtualenv environment-name.. -- This will create folder with the environment-name...

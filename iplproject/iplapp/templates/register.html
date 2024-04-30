@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<style>
+body {
+  background-image: url('{{team.f_logo.url}}');
+  background-repeat: no-repeat;
+  background-size: 1400px 700px;
+}
+</style> 
+{% endblock css %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container">
+      {% if team %}
+        <h1>Update Team</h1>
+      {% else %}
+        <h1>Register Team</h1>
+      {% endif %}
+      <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+          <label for="name"><b>Name</b></label>
+          <input type="text" placeholder="Enter Name" name="f_name" id="f_name" value="{{team.f_name}}" required><br>
+    
+        </div>
+        <div class="form-group col-md-6 mb-0">
+          <label for="f_nickname"><b>Nick Name</b></label>
+          <input type="text" placeholder="Enter Nick Name" name="f_nickname" id="f_nickname" value="{{team.f_nickname}}" required><br>
+    
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+          <label for="f_started_year"><b>Started Year</b></label>
+          <input type="number" placeholder="Enter Started Year" name="f_started_year" id="f_started_year" value="{{team.f_started_year}}" required><br>
+    
+        </div>
+        <div class="form-group col-md-6 mb-0">
+          <label for="f_trophies"><b>Trophies</b></label>
+          <input type="number" placeholder="Enter Trophies" name="f_trophies" id="f_trophies" value="{{team.f_trophies}}" required><br>
+    
+        </div>
+      </div>
+
+      <label for="f_logo"><b>Logo</b></label>
+      <input type="file" name="f_logo" id="f_logo"><br>
+      {% if team %}
+        <button type="submit" class="registerbtn">Update</button>
+        <button><a href="{% url 'delete_team' team.id %}">Delete</a></button>
+      {% else %}
+        <button type="submit" class="registerbtn">Register Team</button>
+      {% endif %}
+    </div>
+  
+  </form>
+{% endblock %}
