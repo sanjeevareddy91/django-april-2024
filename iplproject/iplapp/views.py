@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
-from .models import Teams
+from .models import Teams,User_Details
 from .forms import TeamModelForm,TeamsForm
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+import random
 # Create your views here.
 
 def first_register(request):
@@ -95,3 +98,17 @@ def registerteam_form(request):
         else:
             return redirect('teams_list')
     return render(request,'form.html',{'form':form})
+
+def register_user(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        mobile = request.POST['mobile']
+        otp = random.randint(100000,999999)
+        user_data = User.objects.create_user(username=username,email=email,password=password,is_staff=True)
+        message = f"""Hi {username}, You have been successfully registered with the IPLApp Application. Please use the OTP to verify your account.
+        Verification OTP : {otp}"""
+        send_mail(subject="Registration Confirmation",message=message,from_email='gsanjeevreddy91@gmail.com',recipient_list=['sanjeevasimply@gmail.com'],fail_silently=True)
+        User_Details.objects.create(user=user_data,mobile=mobile,otp=otp)
+    return render(request,'register_user.html')
