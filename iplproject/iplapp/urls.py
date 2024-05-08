@@ -9,5 +9,7 @@ urlpatterns = [
     path('delete_team/<id>',views.delete_team,name="delete_team"),
     path('registerteam_modelform/',views.registerteam_modelform,name="registerteam_modelform"),
     path('registerteam_form/',views.registerteam_form,name="registerteam_form"),
-    path('register_user/',views.register_user,name="register_user")
+    path('register_user/',views.register_user,name="register_user"),
+    path('verify_otp/<id>',views.verify_otp,name="verify_otp"),
+    path('login_user',views.login_user,name="login_user")
 ]

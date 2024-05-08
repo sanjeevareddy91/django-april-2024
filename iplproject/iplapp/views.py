@@ -1,9 +1,12 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from .models import Teams,User_Details
 from .forms import TeamModelForm,TeamsForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 import random
+from django.contrib import messages
+from django.contrib.auth import authenticate
 # Create your views here.
 
 def first_register(request):
@@ -110,5 +113,32 @@ def register_user(request):
         message = f"""Hi {username}, You have been successfully registered with the IPLApp Application. Please use the OTP to verify your account.
         Verification OTP : {otp}"""
         send_mail(subject="Registration Confirmation",message=message,from_email='gsanjeevreddy91@gmail.com',recipient_list=['sanjeevasimply@gmail.com'],fail_silently=True)
-        User_Details.objects.create(user=user_data,mobile=mobile,otp=otp)
+        userdetails_data = User_Details.objects.create(user=user_data,mobile=mobile,otp=otp)
+        messages.success(request, 'Email with verify OTP is sent.')
+        return redirect('verify_otp',userdetails_data.id)
     return render(request,'register_user.html')
+
+def verify_otp(request,id):
+    user_info = User_Details.objects.get(id=id)
+    if request.method=="POST":
+        otp = request.POST['otp']
+        if user_info.otp == int(otp):
+            messages.success(request,'OTP verified successfully')
+            return redirect('teams_list')
+        else:
+            messages.warning(request,'OTP verification failed.')
+            return redirect('verify_otp',id)
+    return render(request,'verify_otp.html')
+
+def login_user(request):
+    if request.method == "POST":
+        email = request.POST['email']
+        password = request.POST['password']
+        print(email,password)
+        print(authenticate(username='sanjeeva',password='admin@123'))
+        user_data = User.objects.filter(email=email)
+        if authenticate(username=user_data[0].username,password=password):
+            messages.success(request,'Login Successful')
+        else:
+            messages.warning(request,'Invalid Login Credentials')
+    return render(request,'login.html')
