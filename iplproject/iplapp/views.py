@@ -134,11 +134,72 @@ def login_user(request):
     if request.method == "POST":
         email = request.POST['email']
         password = request.POST['password']
-        print(email,password)
-        print(authenticate(username='sanjeeva',password='admin@123'))
         user_data = User.objects.filter(email=email)
-        if authenticate(username=user_data[0].username,password=password):
-            messages.success(request,'Login Successful')
+        if user_data:
+            if authenticate(username=user_data[0].username,password=password):
+                messages.success(request,'Login Successful')
+            else:
+                messages.warning(request,'Invalid Login Credentials')
         else:
-            messages.warning(request,'Invalid Login Credentials')
+            messages.warning(request,"Email is not existed in the data.")
     return render(request,'login.html')
+
+def forgot_password(request):
+    if request.method == "POST":
+        email = request.POST['email']
+        email_check = User.objects.filter(email=email)
+        if email_check:
+            otp = random.randint(100000,999999)
+            message = f"""Please use the below OTP for password reset
+            OTP = {otp}"""
+            send_mail(subject="OTP Verification",message=message,from_email='gsanjeevreddy91@gmail.com',recipient_list=['sanjeevasimply@gmail.com'],fail_silently=True)
+            user_data = User_Details.objects.get(user__email=email)
+            user_data.otp = otp
+            user_data.save()
+            messages.success(request,'OTP has been sent to registered email id.')
+            return redirect('forgot_verify_otp',email_check[0].id)
+        else:
+            messages.warning(request,"Email doesnot exist, enter correct email.")
+    return render(request,"forgot_password.html")
+
+
+def forgot_verify_otp(request,id):
+    if request.method == "POST":
+        otp = request.POST['otp']
+        user_data = User_Details.objects.get(user__id=id)
+        print(user_data)
+        print(user_data.otp)
+        if user_data.otp == int(otp):
+            messages.success(request,"OTP verification successful")
+            return redirect('update_password',id)
+        else:
+            messages.warning(request,"Please enter Correct OTP")
+    return render(request,'forgot_verify_otp.html')
+
+
+def update_password(request,id):
+    if request.method == "POST":
+        password = request.POST['password']
+        user_data = User.objects.get(id=id)
+        user_data.set_password(password)
+        user_data.save()
+        messages.success(request,"Password Updated")
+        return redirect('login_user')
+    return render(request,'update_password.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

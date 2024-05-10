@@ -11,5 +11,8 @@ urlpatterns = [
     path('registerteam_form/',views.registerteam_form,name="registerteam_form"),
     path('register_user/',views.register_user,name="register_user"),
     path('verify_otp/<id>',views.verify_otp,name="verify_otp"),
-    path('login_user',views.login_user,name="login_user")
+    path('login_user',views.login_user,name="login_user"),
+    path('forgot_password/',views.forgot_password,name="forgot_pasword"),
+    path('forgot_verify_otp/<id>',views.forgot_verify_otp,name="forgot_verify_otp"),
+    path('updated_password/<id>',views.update_password,name="update_password")
 ]
