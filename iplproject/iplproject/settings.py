@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'iplapp',
     'crispy_forms',
-    'crispy_bootstrap4'
+    'crispy_bootstrap4',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -147,7 +148,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'gsanjeevreddy91@gmail.com'
-EMAIL_HOST_PASSWORD = 'aauyhtyvpcyrebmh'
+EMAIL_HOST_PASSWORD = 'hshsayeyeeyeyeyeyeyeeyeyeey'
 
 from django.contrib.messages import constants as messages
 

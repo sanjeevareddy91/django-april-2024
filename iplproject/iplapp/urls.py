@@ -14,5 +14,17 @@ urlpatterns = [
     path('login_user',views.login_user,name="login_user"),
     path('forgot_password/',views.forgot_password,name="forgot_pasword"),
     path('forgot_verify_otp/<id>',views.forgot_verify_otp,name="forgot_verify_otp"),
-    path('updated_password/<id>',views.update_password,name="update_password")
+    path('updated_password/<id>',views.update_password,name="update_password"),
+    path('list_view/',views.TeamsListView.as_view(),name="list_view"),
+    path('detail_view/<pk>',views.TeamsDetailView.as_view(),name="detail_view"),
+    path('update_view/<pk>',views.TeamsUpdateView.as_view(),name="update_view"),
+    path('create_view/',views.TeamsCreateView.as_view(),name="create_view"),
+    path('delete_view/<pk>',views.TeamsDeleteView.as_view(),name="delete_view")
+
 ]
+
+rest_urls = [
+    path('hello_world',views.Hello_world)
+]
+
+urlpatterns = urlpatterns+rest_urls

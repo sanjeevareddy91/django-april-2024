@@ -189,6 +189,60 @@ def update_password(request,id):
 
 
 
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from django.urls import reverse_lazy
+
+class TeamsCreateView(CreateView):
+    model = Teams
+    fields = "__all__"
+    success_url = reverse_lazy('list_view')
+
+
+from django.views.generic.list import ListView
+
+class TeamsListView(ListView):
+    model = Teams
+
+
+from django.views.generic.detail import DetailView
+
+class TeamsDetailView(DetailView):
+    model = Teams
+
+
+class TeamsUpdateView(UpdateView):
+    model = Teams
+    fields = "__all__"
+    success_url = reverse_lazy('list_view')
+
+class TeamsDeleteView(DeleteView):
+    model = Teams
+    success_url = reverse_lazy('list_view')
+
+
+# Django Restframework Views
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['GET'])
+def Hello_world(request):
+    return Response({'message':"Hello"})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
