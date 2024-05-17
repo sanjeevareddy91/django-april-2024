@@ -225,13 +225,39 @@ class TeamsDeleteView(DeleteView):
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def Hello_world(request):
+    if request.method == "POST":
+        print(request.data)
+        return Response(request.data)
     return Response({'message':"Hello"})
 
+@api_view(['GET','POST'])
+def teams_get_post_api_view(request):
+    if request.method == "POST":
+        data = Teams.objects.create(**request.data)
+        return Response({'success':True,'message':'Data saved','data':request.data})
+    data = Teams.objects.all().values()
+    data = list(data)
+    return Response({'success':True,'data':data})
 
-
-
+@api_view(['GET'])
+def teams_get_put_delete_api_view(request,id):
+    if request.method == "GET":
+        # data = Teams.objects.get(id=id)
+        # # import pdb;pdb.set_trace()
+        # new_data = {
+        #     'f_name':data.f_name,
+        #     'f_nickname':data.f_nickname,
+        #     'f_trophies':data.f_trophies,
+        #     'f_started_year':data.f_started_year,
+        # }
+        # return Response({'success':True,'data':new_data})
+        
+        # 2nd way
+        data = Teams.objects.filter(id=id).values()
+        new_data = list(data)
+        return Response({'success':True,'data':new_data[0]})
 
 
 
