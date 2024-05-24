@@ -261,25 +261,40 @@ def teams_get_put_delete_api_view(request,id):
 
 
 
+from .serializers import TeamModelSerializer
+from rest_framework.views import APIView
+
+class TeamClsAPIView(APIView):
+    def get(self,request):
+        data = Teams.objects.all()
+        serializer = TeamModelSerializer(data,many=True)
+        return Response({'data':serializer.data})
+
+    def post(self,request):
+        serializer = TeamModelSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'data':serializer.data})
+        return Response({'message':'Data Validation missing'})
 
 
 
+class TeamClsAPIUpdateView(APIView):
+    def get(self,request,id):
+        data = Teams.objects.get(id=id)
+        serializer = TeamModelSerializer(data)
+        return Response({'data':serializer.data})
+    
+    def put(self,request,id):
+        get_data = Teams.objects.get(id=id)
+        serializer = TeamModelSerializer(get_data,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'data':serializer.data})
+        return Response({'message':'Data Validation missing'})            
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def delete(self,request,id):
+        get_data = Teams.objects.get(id=id)
+        get_data.delete()
+        return Response({'message':"Record Deleted"})

@@ -26,7 +26,9 @@ urlpatterns = [
 rest_urls = [
     path('hello_world',views.Hello_world),
     path('teams',views.teams_get_post_api_view),
-    path('teams/<id>',views.teams_get_put_delete_api_view)
+    path('teams/<id>',views.teams_get_put_delete_api_view),
+    path('cls_teams_api',views.TeamClsAPIView.as_view()),
+    path('cls_teams_api/<id>',views.TeamClsAPIUpdateView.as_view())
 ]
 
 urlpatterns = urlpatterns+rest_urls
