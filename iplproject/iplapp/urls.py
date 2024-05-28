@@ -27,8 +27,15 @@ rest_urls = [
     path('hello_world',views.Hello_world),
     path('teams',views.teams_get_post_api_view),
     path('teams/<id>',views.teams_get_put_delete_api_view),
-    path('cls_teams_api',views.TeamClsAPIView.as_view()),
-    path('cls_teams_api/<id>',views.TeamClsAPIUpdateView.as_view())
+    path('cls_teams_api/',views.TeamClsAPIView.as_view()),
+    path('cls_teams_api/<id>',views.TeamClsAPIUpdateView.as_view()),
+    path('cls_list_create_view/',views.TeamListCreateView.as_view()),
+    path('cls_retrieve_view/<pk>/',views.TeamRetrievewView.as_view()),
+    path('cls_retrieve_update_destroy_view/<pk>/',views.TeamRetrieveUpdateDestroyView.as_view())
 ]
 
-urlpatterns = urlpatterns+rest_urls
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'viewset_teams',views.TeamsViewSet,basename='Teams')
+urlpatterns = urlpatterns+rest_urls + router.urls

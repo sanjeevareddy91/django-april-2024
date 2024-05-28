@@ -7,6 +7,8 @@ from django.core.mail import send_mail
 import random
 from django.contrib import messages
 from django.contrib.auth import authenticate
+
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 def first_register(request):
@@ -265,6 +267,8 @@ from .serializers import TeamModelSerializer
 from rest_framework.views import APIView
 
 class TeamClsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self,request):
         data = Teams.objects.all()
         serializer = TeamModelSerializer(data,many=True)
@@ -298,3 +302,35 @@ class TeamClsAPIUpdateView(APIView):
         get_data = Teams.objects.get(id=id)
         get_data.delete()
         return Response({'message':"Record Deleted"})
+
+
+# Generic APIViews
+
+from rest_framework import generics
+
+class TeamListCreateView(generics.ListCreateAPIView):
+    queryset = Teams.objects.all()
+    serializer_class = TeamModelSerializer
+
+    def list(self, request):
+        # Note the use of `get_queryset()` instead of `self.queryset`
+        queryset = self.get_queryset()
+        serializer = TeamModelSerializer(queryset, many=True)
+        return Response({"success":True,"data":serializer.data})
+
+class TeamRetrievewView(generics.RetrieveAPIView):
+    queryset = Teams.objects.all()
+    serializer_class = TeamModelSerializer
+    
+
+class TeamRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Teams.objects.all()
+    serializer_class = TeamModelSerializer
+
+# Viewsets:
+
+from rest_framework import viewsets
+
+class TeamsViewSet(viewsets.ModelViewSet):
+    queryset = Teams.objects.all()
+    serializer_class = TeamModelSerializer
